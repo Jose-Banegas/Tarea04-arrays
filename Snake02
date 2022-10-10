@@ -7,7 +7,7 @@ public class Snake {
 	private int x, y;
 	private boolean estaViva = true;
 	private Mapa mapa;
-	private Direccion ultimoMovimiento = Direccion.ARRIBA; //atributo extra
+	private Direccion ultimoMovimiento = Direccion.ARRIBA;
 	
 	/**
 	 * Recibe mapa y posición inicial. El mapa contiene posiciones previamente
@@ -29,9 +29,9 @@ public class Snake {
 	 *            , la dirección hacia la que debe moverse
 	 */
 
-	public void desplazarseHacia(Direccion direccion) { //No es muy largo..
+	public void desplazarseHacia(Direccion direccion) {
 		if (!isViva()) {
-			throw new Error("Snake muerta");
+			throw new Error("Snake muerto");
 		}else{
 			if(direccion == Direccion.ARRIBA && this.ultimoMovimiento == Direccion.ABAJO || 
 					direccion == Direccion.ABAJO && this.ultimoMovimiento == Direccion.ARRIBA ||
@@ -39,56 +39,56 @@ public class Snake {
 					direccion == Direccion.IZQUIERDA && this.ultimoMovimiento == Direccion.DERECHA)
 				throw new Error("Movimiento invalido");
 			if (direccion == Direccion.ARRIBA && this.ultimoMovimiento != Direccion.ABAJO){
-				if ((getY() == 0) || mapa.estaOcupado(getX(), getY() - 1)) {
-					estaViva = false;
+				if ((getY() == 0) || this.mapa.estaOcupado(getX(), getY() - 1)) {
+					this.estaViva = false;
 				} else {
-					mapa.desocupar(getX(), getY());
-					y = y - 1;
-					mapa.ocupar(getX(), getY());
+					this.mapa.desocupar(getX(), getY());
+					this.y -= 1;
+					this.mapa.ocupar(getX(), getY());
 				}
 				this.ultimoMovimiento = Direccion.ARRIBA;
 			}
 			if (direccion == Direccion.ABAJO && this.ultimoMovimiento != Direccion.ARRIBA){
 				if (mapa.estaOcupado(getX(), getY() + 1)) {
-					estaViva = false;
+					this.estaViva = false;
 				} else {
-					mapa.desocupar(getX(), getY());
-					y = y + 1;
-					mapa.ocupar(getX(), getY());
+					this.mapa.desocupar(getX(), getY());
+					this.y += 1;
+					this.mapa.ocupar(getX(), getY());
 				}
 				this.ultimoMovimiento = Direccion.ABAJO;
 			}
 			if (direccion == Direccion.DERECHA && this.ultimoMovimiento != Direccion.IZQUIERDA) {
 				if (mapa.estaOcupado(getX() + 1, getY())) {
-					estaViva = false;
+					this.estaViva = false;
 				} else {
-					mapa.desocupar(getX(), getY());
-					y = y - 1;
-					mapa.ocupar(getX(), getY());
+					this.mapa.desocupar(getX(), getY());
+					this.x += 1;
+					this.mapa.ocupar(getX(), getY());
 				}
 				this.ultimoMovimiento = Direccion.DERECHA;
 			}
 			if (direccion == Direccion.IZQUIERDA && this.ultimoMovimiento != Direccion.DERECHA) {
-				if ((getX() == 0) || mapa.estaOcupado(getX() - 1, getY())) {
-					estaViva = false;
+				if ((getX() == 0) || this.mapa.estaOcupado(getX() - 1, getY())) {
+					this.estaViva = false;
 				} else {
-					mapa.desocupar(getX(), getY());
-					x = x - 1;
-					mapa.ocupar(getX(), getY());
+					this.mapa.desocupar(getX(), getY());
+					this.x -= 1;
+					this.mapa.ocupar(getX(), getY());
 				}
 				this.ultimoMovimiento = Direccion.IZQUIERDA;
 			}
 		}
 	}
-
+	//devuelve posicion en X del snake.
 	public int getX() {
 		return this.x;
 	}
-
+	//devuelve posicion en Y del snake.
 	public int getY() {
 		return this.y;
 	}
-
+	//devuelve si el snake esta vivo o no.
 	public boolean isViva() {
 		return this.estaViva;
 	}
@@ -98,7 +98,6 @@ enum Direccion {
 	ARRIBA, ABAJO, IZQUIERDA, DERECHA
 }
 
-//completar PRE y POST
 class Mapa {
 	private boolean[][] ocupados;
 	
@@ -112,7 +111,8 @@ class Mapa {
 			ocupar(ocupados.length - 1, i);
 		}
 	}
-
+	
+	//comprueba si la coordenada (x,y) esta ocupada y devuelve el valor.
 	public boolean estaOcupado(int x, int y) {
 		if (ocupados[x][y]) {
 			return true;
@@ -121,11 +121,15 @@ class Mapa {
 		}
 	}
 
+	//ocupa el casillero si anteriormente no estaba ocupado.
 	public void ocupar(int x, int y) {
-		if(!estaOcupado(x, y))
+		if(estaOcupado(x, y))
+			throw new Error("Casillero ocupado");
+		else
 			ocupados[x][y] = true;
 	}
-
+	
+	//desocupa el casillero si anteriormente no estaba desocupado.
 	public void desocupar(int x, int y) {
 		if(estaOcupado(x, y))
 			ocupados[x][y] = false;
