@@ -5,7 +5,7 @@ import org.junit.Assert;
 public class Pruebas {
 	
 	@Test
-	public void MuertePorBordeArribaEn8x8() {
+	public void muertePorBordeArribaEn8x8() {
 		Mapa mapa = new Mapa(8,8);
 		Snake snake = new Snake(mapa, 2, 3);
 		snake.desplazarseHacia(Direccion.ARRIBA);
@@ -17,7 +17,7 @@ public class Pruebas {
 	}
 	
 	@Test(expected = Error.class)
-	public void MuertePorBordeAbajoEn5x5() {
+	public void muertePorBordeAbajoEn5x5() {
 		Mapa mapa = new Mapa(5,5);
 		Snake snake = new Snake(mapa, 2, 3);
 		snake.desplazarseHacia(Direccion.IZQUIERDA);
@@ -29,7 +29,7 @@ public class Pruebas {
 	}
 	
 	@Test(expected = Error.class)
-	public void MuertePorBordeIzquierdoEn5x3() {
+	public void muertePorBordeIzquierdoEn5x3() {
 		Mapa mapa = new Mapa(5,3);
 		Snake snake = new Snake(mapa, 2, 3);
 		snake.desplazarseHacia(Direccion.IZQUIERDA);
@@ -40,7 +40,7 @@ public class Pruebas {
 	}
 	
 	@Test(expected = Error.class)
-	public void MuertePorBordeIzquierdoEn4x3() {
+	public void muertePorBordeIzquierdoEn4x3() {
 		Mapa mapa = new Mapa(4,3);
 		Snake snake = new Snake(mapa, 2, 3);
 		snake.desplazarseHacia(Direccion.IZQUIERDA);
@@ -50,7 +50,7 @@ public class Pruebas {
 	}
 	
 	@Test(expected = Error.class)
-	public void MuertePorBordeDerechoEn5x3() {
+	public void muertePorBordeDerechoEn5x3() {
 		Mapa mapa = new Mapa(5,3);
 		Snake snake = new Snake(mapa, 2, 3);
 		snake.desplazarseHacia(Direccion.DERECHA);
@@ -62,7 +62,7 @@ public class Pruebas {
 	}
 	
 	@Test
-	public void MuertePorObstaculoArribaEn8x8() {
+	public void muertePorObstaculoArribaEn8x8() {
 		Mapa mapa = new Mapa(8,8);
 		mapa.ocupar(2, 2);
 		Snake snake = new Snake(mapa, 2, 3);
@@ -72,7 +72,7 @@ public class Pruebas {
 	}
 	
 	@Test(expected = Error.class)
-	public void MovimientoInvalidoAbajoEn8x8() {
+	public void movimientoInvalidoAbajoEn8x8() {
 		Mapa mapa = new Mapa(8,8);
 		Snake snake = new Snake(mapa, 2, 3);
 		mapa.ocupar(2, 6);
@@ -82,7 +82,7 @@ public class Pruebas {
 	}
 	
 	@Test
-	public void MuertePorObstaculoAbajoEn8x8() {
+	public void muertePorObstaculoAbajoEn8x8() {
 		Mapa mapa = new Mapa(8,8);
 		Snake snake = new Snake(mapa, 2, 3);
 		mapa.ocupar(3, 6);
@@ -90,12 +90,12 @@ public class Pruebas {
 		snake.desplazarseHacia(Direccion.ABAJO);
 		snake.desplazarseHacia(Direccion.ABAJO);
 		snake.desplazarseHacia(Direccion.ABAJO);
-
+		
 		Assert.assertFalse(snake.isViva());
 	}
 	
 	@Test
-	public void MuertePorObstaculoIzquierdaEn8x8() {
+	public void muertePorObstaculoIzquierdaEn8x8() {
 		Mapa mapa = new Mapa(8,8);
 		Snake snake = new Snake(mapa, 2, 3);
 		mapa.ocupar(1, 3);
@@ -105,7 +105,7 @@ public class Pruebas {
 	}
 	
 	@Test
-	public void MuertePorObstaculoDerechaEn8x8() {
+	public void muertePorObstaculoDerechaEn8x8() {
 		Mapa mapa = new Mapa(8,8);
 		Snake snake = new Snake(mapa, 2, 3);
 		mapa.ocupar(3, 3);
@@ -115,11 +115,20 @@ public class Pruebas {
 	}
 	
 	@Test(expected = Error.class)
-	public void MuertePorObstaculoEnElMedio() {
+	public void muertePorCasilleroYaOcupadoInit() {
+		Mapa mapa = new Mapa(7,7);
+		mapa.ocupar(3, 3);
+		Snake snake = new Snake(mapa, 3, 3);
+		
+		Assert.assertFalse(snake.isViva());
+	}
+	
+	@Test
+	public void imposibleOcupar() {
 		Mapa mapa = new Mapa(7,7);
 		Snake snake = new Snake(mapa, 3, 3);
 		mapa.ocupar(3, 3);
-	
-		Assert.assertFalse(snake.isViva());
+		
+		Assert.assertTrue(snake.isViva());
 	}
 }
