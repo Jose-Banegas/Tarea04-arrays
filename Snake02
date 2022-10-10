@@ -37,17 +37,12 @@ public class Snake {
 		if (!isViva()) {
 			throw new Error("Snake muerto");
 		} else {
-			if (direccion == Direccion.ARRIBA
-					&& this.ultimoMovimiento == Direccion.ABAJO
-					|| direccion == Direccion.ABAJO
-					&& this.ultimoMovimiento == Direccion.ARRIBA
-					|| direccion == Direccion.DERECHA
-					&& this.ultimoMovimiento == Direccion.IZQUIERDA
-					|| direccion == Direccion.IZQUIERDA
-					&& this.ultimoMovimiento == Direccion.DERECHA)
+			if (direccion == Direccion.ARRIBA && this.ultimoMovimiento == Direccion.ABAJO
+					|| direccion == Direccion.ABAJO	&& this.ultimoMovimiento == Direccion.ARRIBA
+					|| direccion == Direccion.DERECHA && this.ultimoMovimiento == Direccion.IZQUIERDA
+					|| direccion == Direccion.IZQUIERDA	&& this.ultimoMovimiento == Direccion.DERECHA)
 				throw new Error("Movimiento invalido");
-			if (direccion == Direccion.ARRIBA
-					&& this.ultimoMovimiento != Direccion.ABAJO) {
+			if (direccion == Direccion.ARRIBA && this.ultimoMovimiento != Direccion.ABAJO) {
 				if ((getY() == 0) || this.mapa.estaOcupado(getX(), getY() - 1)) {
 					this.estaViva = false;
 				} else {
@@ -57,8 +52,7 @@ public class Snake {
 				}
 				this.ultimoMovimiento = Direccion.ARRIBA;
 			}
-			if (direccion == Direccion.ABAJO
-					&& this.ultimoMovimiento != Direccion.ARRIBA) {
+			if (direccion == Direccion.ABAJO && this.ultimoMovimiento != Direccion.ARRIBA) {
 				if (mapa.estaOcupado(getX(), getY() + 1)) {
 					this.estaViva = false;
 				} else {
@@ -68,8 +62,7 @@ public class Snake {
 				}
 				this.ultimoMovimiento = Direccion.ABAJO;
 			}
-			if (direccion == Direccion.DERECHA
-					&& this.ultimoMovimiento != Direccion.IZQUIERDA) {
+			if (direccion == Direccion.DERECHA && this.ultimoMovimiento != Direccion.IZQUIERDA) {
 				if (mapa.estaOcupado(getX() + 1, getY())) {
 					this.estaViva = false;
 				} else {
@@ -79,8 +72,7 @@ public class Snake {
 				}
 				this.ultimoMovimiento = Direccion.DERECHA;
 			}
-			if (direccion == Direccion.IZQUIERDA
-					&& this.ultimoMovimiento != Direccion.DERECHA) {
+			if (direccion == Direccion.IZQUIERDA && this.ultimoMovimiento != Direccion.DERECHA) {
 				if ((getX() == 0) || this.mapa.estaOcupado(getX() - 1, getY())) {
 					this.estaViva = false;
 				} else {
