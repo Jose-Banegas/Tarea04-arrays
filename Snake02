@@ -8,15 +8,19 @@ public class Snake {
 	private boolean estaViva = true;
 	private Mapa mapa;
 	private Direccion ultimoMovimiento = Direccion.ARRIBA;
-	
+
 	/**
 	 * Recibe mapa y posición inicial. El mapa contiene posiciones previamente
 	 * ocupadas
 	 */
 	public Snake(Mapa mapa, int x, int y) {
 		this.mapa = mapa;
-		this.x = x;
-		this.y = y;
+		boolean posicionOcupada = mapa.estaOcupado(x, y);
+		if(posicionOcupada)
+			throw new Error("Posicion ocupada, busque nuevo valor");
+		else
+			this.x = x;
+			this.y = y;
 	}
 
 	/**
@@ -32,13 +36,18 @@ public class Snake {
 	public void desplazarseHacia(Direccion direccion) {
 		if (!isViva()) {
 			throw new Error("Snake muerto");
-		}else{
-			if(direccion == Direccion.ARRIBA && this.ultimoMovimiento == Direccion.ABAJO || 
-					direccion == Direccion.ABAJO && this.ultimoMovimiento == Direccion.ARRIBA ||
-					direccion == Direccion.DERECHA && this.ultimoMovimiento == Direccion.IZQUIERDA ||
-					direccion == Direccion.IZQUIERDA && this.ultimoMovimiento == Direccion.DERECHA)
+		} else {
+			if (direccion == Direccion.ARRIBA
+					&& this.ultimoMovimiento == Direccion.ABAJO
+					|| direccion == Direccion.ABAJO
+					&& this.ultimoMovimiento == Direccion.ARRIBA
+					|| direccion == Direccion.DERECHA
+					&& this.ultimoMovimiento == Direccion.IZQUIERDA
+					|| direccion == Direccion.IZQUIERDA
+					&& this.ultimoMovimiento == Direccion.DERECHA)
 				throw new Error("Movimiento invalido");
-			if (direccion == Direccion.ARRIBA && this.ultimoMovimiento != Direccion.ABAJO){
+			if (direccion == Direccion.ARRIBA
+					&& this.ultimoMovimiento != Direccion.ABAJO) {
 				if ((getY() == 0) || this.mapa.estaOcupado(getX(), getY() - 1)) {
 					this.estaViva = false;
 				} else {
@@ -48,7 +57,8 @@ public class Snake {
 				}
 				this.ultimoMovimiento = Direccion.ARRIBA;
 			}
-			if (direccion == Direccion.ABAJO && this.ultimoMovimiento != Direccion.ARRIBA){
+			if (direccion == Direccion.ABAJO
+					&& this.ultimoMovimiento != Direccion.ARRIBA) {
 				if (mapa.estaOcupado(getX(), getY() + 1)) {
 					this.estaViva = false;
 				} else {
@@ -58,7 +68,8 @@ public class Snake {
 				}
 				this.ultimoMovimiento = Direccion.ABAJO;
 			}
-			if (direccion == Direccion.DERECHA && this.ultimoMovimiento != Direccion.IZQUIERDA) {
+			if (direccion == Direccion.DERECHA
+					&& this.ultimoMovimiento != Direccion.IZQUIERDA) {
 				if (mapa.estaOcupado(getX() + 1, getY())) {
 					this.estaViva = false;
 				} else {
@@ -68,7 +79,8 @@ public class Snake {
 				}
 				this.ultimoMovimiento = Direccion.DERECHA;
 			}
-			if (direccion == Direccion.IZQUIERDA && this.ultimoMovimiento != Direccion.DERECHA) {
+			if (direccion == Direccion.IZQUIERDA
+					&& this.ultimoMovimiento != Direccion.DERECHA) {
 				if ((getX() == 0) || this.mapa.estaOcupado(getX() - 1, getY())) {
 					this.estaViva = false;
 				} else {
@@ -80,15 +92,18 @@ public class Snake {
 			}
 		}
 	}
-	//devuelve posicion en X del snake.
+
+	// devuelve posicion en X del snake.
 	public int getX() {
 		return this.x;
 	}
-	//devuelve posicion en Y del snake.
+
+	// devuelve posicion en Y del snake.
 	public int getY() {
 		return this.y;
 	}
-	//devuelve si el snake esta vivo o no.
+
+	// devuelve si el snake esta vivo o no.
 	public boolean isViva() {
 		return this.estaViva;
 	}
@@ -100,19 +115,19 @@ enum Direccion {
 
 class Mapa {
 	private boolean[][] ocupados;
-	
+
 	public Mapa(int ancho, int alto) {
 		ocupados = new boolean[ancho + 1][alto + 1];
 		for (int i = 0; i < ocupados.length; i++) {
 			ocupar(i, ocupados[i].length - 1);
 		}
-		
-		for (int i = 0; i < ocupados[0].length; i++) {
+
+		for (int i = 0; i < ocupados[0].length - 1; i++) {
 			ocupar(ocupados.length - 1, i);
 		}
 	}
-	
-	//comprueba si la coordenada (x,y) esta ocupada y devuelve el valor.
+
+	// comprueba si la coordenada (x,y) esta ocupada y devuelve el valor.
 	public boolean estaOcupado(int x, int y) {
 		if (ocupados[x][y]) {
 			return true;
@@ -121,17 +136,17 @@ class Mapa {
 		}
 	}
 
-	//ocupa el casillero si anteriormente no estaba ocupado.
+	// ocupa el casillero si anteriormente no estaba ocupado.
 	public void ocupar(int x, int y) {
-		if(estaOcupado(x, y))
+		if (estaOcupado(x, y))
 			throw new Error("Casillero ocupado");
 		else
 			ocupados[x][y] = true;
 	}
-	
-	//desocupa el casillero si anteriormente no estaba desocupado.
+
+	// desocupa el casillero si anteriormente no estaba desocupado.
 	public void desocupar(int x, int y) {
-		if(estaOcupado(x, y))
+		if (estaOcupado(x, y))
 			ocupados[x][y] = false;
 	}
 }
