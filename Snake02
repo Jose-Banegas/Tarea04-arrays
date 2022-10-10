@@ -122,10 +122,12 @@ class Mapa {
 	}
 
 	public void ocupar(int x, int y) {
-		ocupados[x][y] = true;
+		if(!estaOcupado(x, y))
+			ocupados[x][y] = true;
 	}
 
 	public void desocupar(int x, int y) {
-		ocupados[x][y] = false;
+		if(estaOcupado(x, y))
+			ocupados[x][y] = false;
 	}
 }
